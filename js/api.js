@@ -36,38 +36,20 @@ function error(error) {
 
 // Blok kode untuk melakukan request data json
 function getLeague() {
-  caches.match(`${base_url}competitions/${id_liga}/standings`).then(function(response) {
-    if (response) {
-      response.json().then(function (data) {
-        bodyLeague(data);
-      });
-    }
-    else{
-      fetchData(`${base_url}competitions/${id_liga}/standings`)
-      .then(status)
-      .then(json)
-      .then(function(data){
-        bodyLeague(data);
-      });
-    }
+  fetchData(`${base_url}competitions/${id_liga}/standings`)
+  .then(status)
+  .then(json)
+  .then(function(data){
+    bodyLeague(data);
   });
 }
 
 function getListTeams() {
-  caches.match(`${base_url}competitions/${id_liga}/standings`).then(function(response) {
-    if (response) {
-      response.json().then(function (data) {
-        bodyListTeams(data);
-      });
-    }
-    else{
-      fetchData(`${base_url}competitions/${id_liga}/standings`)
-      .then(status)
-      .then(json)
-      .then(function(data){
-        bodyListTeams(data);
-      });
-    }
+  fetchData(`${base_url}competitions/${id_liga}/standings`)
+  .then(status)
+  .then(json)
+  .then(function(data){
+    bodyListTeams(data);
   });
 }
 
@@ -75,25 +57,13 @@ function getTeamById() {
   return new Promise(function(resolve, reject) {
     var urlParams = new URLSearchParams(window.location.search);
     var idParam = urlParams.get("id");
-    if ("caches" in window) {
-      caches.match(`${base_url}teams/${idParam}`).then(function(response) {
-        if (response) {
-          response.json().then(function(data) {
-            bodyTeamId(data);
-            resolve(data);
-          });
-        }
-        else{    
-          fetchData(`${base_url}teams/${idParam}`)
-            .then(status)
-            .then(json)
-            .then(function(data) {
-              bodyTeamId(data);
-              resolve(data);
-            });
-          }
-      });
-    }  
+    fetchData(`${base_url}teams/${idParam}`)
+    .then(status)
+    .then(json)
+    .then(function(data) {
+      bodyTeamId(data);
+      resolve(data);
+    });
   });
 }
 
