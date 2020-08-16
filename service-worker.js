@@ -1,17 +1,18 @@
 importScripts('https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js');
 
+const revision_number = 2;
 workbox.precaching.precacheAndRoute([
     { url: '/', revision: '1' },
-    { url: '/manifest.json', revision: '1' },
-    { url: '/nav.html', revision: '1' },
-    { url: '/index.html', revision: '1' },
-    { url: '/detail_tim.html', revision: '1' },
-    { url: '/pages/home.html', revision: '1' },
-    { url: '/pages/list_tim.html', revision: '1' },
-    { url: '/pages/favorites.html', revision: '1' },
-    { url: '/css/materialize.min.css', revision: '1' },
-    { url: '/css/materialize.css', revision: '1' },
-    { url: '/js/materialize.min.js', revision: '1' },
+    { url: '/manifest.json', revision: revision_number },
+    { url: '/nav.html', revision: revision_number },
+    { url: '/index.html', revision: revision_number },
+    { url: '/detail_tim.html', revision: revision_number },
+    { url: '/pages/home.html', revision: revision_number },
+    { url: '/pages/list_tim.html', revision: revision_number },
+    { url: '/pages/favorites.html', revision: revision_number },
+    { url: '/css/materialize.min.css', revision: revision_number },
+    { url: '/css/materialize.css', revision: revision_number },
+    { url: '/js/materialize.min.js', revision: revision_number },
 ]);
 
 workbox.routing.registerRoute(
@@ -24,7 +25,7 @@ workbox.routing.registerRoute(
 // menyimpan image
 workbox.routing.registerRoute(
   /\.(?:png|gif|jpg|jpeg|svg)$/,
-  workbox.strategies.staleWhileRevalidate({
+  workbox.strategies.cacheFirst({
     cacheName: 'images',
     plugins: [
       new workbox.expiration.Plugin({
@@ -46,7 +47,7 @@ workbox.routing.registerRoute(
 // Menyimpan base_url API
 workbox.routing.registerRoute(
   new RegExp('https://api.football-data.org/v2/'),
-  workbox.strategies.staleWhileRevalidate({
+  workbox.strategies.networkFirst({
     cacheName: 'base_url',
   })
 )
