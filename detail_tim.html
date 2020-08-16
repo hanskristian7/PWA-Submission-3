@@ -50,13 +50,14 @@
           var item = getTeamById();
         }
         btnSave.onclick = () => {
-          conf = confirm('Jadikan tim favorit?');
-          if(conf){
-            console.log("SAVE");
-            item.then((team) => {
-                saveTeam(team);
-                window.location.href = "index.html";
-            })
+          var toastHTML = '<span>Favoritkan?</span><button class="btn-flat toast-action" id="btn-fav">Yes</button>';
+          M.toast({html: toastHTML});
+          btnFav = document.getElementById("btn-fav");
+          btnFav.onclick = () => {
+            item.then((team)=>{
+              saveTeam(team);
+              window.location.href = "index.html";
+            });
           }
         }        
     });

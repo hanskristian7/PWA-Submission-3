@@ -49,14 +49,13 @@ function getAll() {
 }
 
 function deleteFavTeam(team_id) {
-  conf = confirm("Hapus tim?");
-  if (conf){
+  var toastHTML = '<span>Hapus Tim?</span><button class="btn-flat toast-action" id="btn-hapus">Yes</button>';
+  M.toast({html: toastHTML});
+  btnHapus = document.getElementById("btn-hapus");
+  btnHapus.onclick = () =>{
     dbPromised.then((db) => {
       var tx = db.transaction('teams', 'readwrite');
       var store = tx.objectStore('teams');
-  
-      // console.log('Delete');
-      // console.log(team_id);
       store.delete(team_id);
       return tx.complete;
     }).then(()=>{
