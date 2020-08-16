@@ -1,8 +1,8 @@
 // url buat football
-var base_url = "https://api.football-data.org/v2/";
+const base_url = "https://api.football-data.org/v2/";
 
 // token untuk akses api
-var token_api = "9b7a015f09f346b089aacc95660ef41b";
+const token_api = "9b7a015f09f346b089aacc95660ef41b";
 const id_liga = "2014";
 
 // fungsi fetch supaya sudah ada header tinggal panggil
@@ -36,66 +36,55 @@ function error(error) {
 
 // Blok kode untuk melakukan request data json
 function getLeague() {
-  if ('caches' in window) {
-    caches.match(base_url + `competitions/${id_liga}/standings`).then(function(response) {
-      if (response) {
-        response.json().then(function (data) {
-          bodyLeague(data);
-        });
-      }
-      else{
-        // console.log("haha");
-        fetchData(base_url + `competitions/${id_liga}/standings`)
-        .then(status)
-        .then(json)
-        .then(function(data){
-          bodyLeague(data);
-        });
-      }
-    });
-  } 
+  caches.match(`${base_url}competitions/${id_liga}/standings`).then(function(response) {
+    if (response) {
+      response.json().then(function (data) {
+        bodyLeague(data);
+      });
+    }
+    else{
+      fetchData(`${base_url}competitions/${id_liga}/standings`)
+      .then(status)
+      .then(json)
+      .then(function(data){
+        bodyLeague(data);
+      });
+    }
+  });
 }
 
 function getListTeams() {
-  if ('caches' in window) {
-    caches.match(base_url + `competitions/${id_liga}/standings`).then(function(response) {
-      // console.log(response);
-      if (response) {
-        response.json().then(function (data) {
-          // console.log("list tim nih");
-          bodyListTeams(data);
-        });
-      }
-      else{
-        fetchData(base_url + `competitions/${id_liga}/standings`)
-        .then(status)
-        .then(json)
-        .then(function(data){
-          bodyListTeams(data);
-        })
-      }
-    })
-  }
+  caches.match(`${base_url}competitions/${id_liga}/standings`).then(function(response) {
+    if (response) {
+      response.json().then(function (data) {
+        bodyListTeams(data);
+      });
+    }
+    else{
+      fetchData(`${base_url}competitions/${id_liga}/standings`)
+      .then(status)
+      .then(json)
+      .then(function(data){
+        bodyListTeams(data);
+      });
+    }
+  });
 }
 
 function getTeamById() {
   return new Promise(function(resolve, reject) {
-    // Ambil nilai query parameter (?id=)
     var urlParams = new URLSearchParams(window.location.search);
     var idParam = urlParams.get("id");
-    // console.log(idParam);
     if ("caches" in window) {
-      caches.match(base_url + `teams/${idParam}`).then(function(response) {
+      caches.match(`${base_url}teams/${idParam}`).then(function(response) {
         if (response) {
           response.json().then(function(data) {
             bodyTeamId(data);
             resolve(data);
           });
         }
-        else{
-          console.log(idParam);
-    
-          fetchData(base_url + `teams/${idParam}`)
+        else{    
+          fetchData(`${base_url}teams/${idParam}`)
             .then(status)
             .then(json)
             .then(function(data) {
