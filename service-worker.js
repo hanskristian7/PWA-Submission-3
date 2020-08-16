@@ -1,8 +1,8 @@
 importScripts('https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js');
 
-let revision_number = 3;
+let revision_number = 1;
 workbox.precaching.precacheAndRoute([
-    { url: '/', revision: '1' },
+    { url: '/', revision: revision_number },
     { url: '/manifest.json', revision: revision_number },
     { url: '/nav.html', revision: revision_number },
     { url: '/index.html', revision: revision_number },
@@ -24,7 +24,7 @@ workbox.routing.registerRoute(
 
 workbox.routing.registerRoute(
   new RegExp('/js/'),
-  workbox.strategies.cacheFirst({
+  workbox.strategies.staleWhileRevalidate({
     cacheName: 'js'
   }),
 );
@@ -32,7 +32,7 @@ workbox.routing.registerRoute(
 // menyimpan image
 workbox.routing.registerRoute(
   /\.(?:png|gif|jpg|jpeg|svg)$/,
-  workbox.strategies.cacheFirst({
+  workbox.strategies.staleWhileRevalidate({
     cacheName: 'images',
     plugins: [
       new workbox.expiration.Plugin({
@@ -54,7 +54,7 @@ workbox.routing.registerRoute(
 // Menyimpan base_url API
 workbox.routing.registerRoute(
   new RegExp('https://api.football-data.org/v2/'),
-  workbox.strategies.cacheFirst({
+  workbox.strategies.staleWhileRevalidate({
     cacheName: 'base_url',
   })
 )
