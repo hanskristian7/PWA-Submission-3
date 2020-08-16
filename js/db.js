@@ -24,7 +24,7 @@ function saveTeam(team) {
       }
       console.log(item);
 
-      store.add(item);
+      store.put(item);
       return tx.complete;
     })
     .then(function() {
