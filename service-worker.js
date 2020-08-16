@@ -1,68 +1,55 @@
-const CACHE_NAME = 'submission2-v10';
-var urlsToCache = [
-  "/",
-  "manifest.json",
-  "https://fonts.googleapis.com/icon?family=Material+Icons",
-  "https://fonts.gstatic.com/s/materialicons/v53/flUhRq6tzZclQEJ-Vdg-IuiaDsNcIhQ8tQ.woff2",
-  "/nav.html",
-  "/index.html",
-  "/detail_tim.html",
-  "/pages/home.html",
-  "/pages/list_tim.html",
-  "/pages/favorites.html",
-  "/css/materialize.min.css",
-  "/css/materialize.css",
-  "/js/materialize.min.js",
-  "/js/nav.js",
-  "/js/api.js",
-  "/images/favicon.png",
-  "/images/spain.png",
-  "/images/badge.png",
-  "/images/icon.png"
-];
- 
-self.addEventListener("install", function(event) {
-  event.waitUntil(
-    caches.open(CACHE_NAME).then(function(cache) {
-      return cache.addAll(urlsToCache);
-    })
-  );
-});
+importScripts('https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js');
 
-self.addEventListener("fetch", function(event) {
-  var base_url = "https://api.football-data.org/v2/";
-  if (event.request.url.indexOf(base_url) > -1) {
-    event.respondWith(
-      caches.open(CACHE_NAME).then(function(cache) {
-        return fetch(event.request).then(function(response) {
-          cache.put(event.request.url, response.clone());
-          return response;
-        })
-      })
-    );
-  } else {
-    event.respondWith(
-      caches.match(event.request).then(function(response) {
-        return response || fetch (event.request);
-      })
-    )
-  }
-});
+workbox.precaching.precacheAndRoute([
+    { url: '/', revision: '1' },
+    { url: '/manifest.json', revision: '1' },
+    { url: '/nav.html', revision: '1' },
+    { url: '/index.html', revision: '1' },
+    { url: '/detail_tim.html', revision: '1' },
+    { url: '/pages/home.html', revision: '1' },
+    { url: '/pages/list_tim.html', revision: '1' },
+    { url: '/pages/favorites.html', revision: '1' },
+    { url: '/css/materialize.min.css', revision: '1' },
+    { url: '/css/materialize.css', revision: '1' },
+    { url: '/js/materialize.min.js', revision: '1' },
+]);
 
-self.addEventListener("activate", function(event) {
-    event.waitUntil(
-      caches.keys().then(function(cacheNames) {
-        return Promise.all(
-          cacheNames.map(function(cacheName) {
-            if (cacheName != CACHE_NAME) {
-              console.log("ServiceWorker: cache " + cacheName + " dihapus");
-              return caches.delete(cacheName);
-            }
-          })
-        );
+workbox.routing.registerRoute(
+    new RegExp('/pages/'),
+    workbox.strategies.staleWhileRevalidate({
+      cacheName: 'pages'
+    }),
+);
+
+// menyimpan image
+workbox.routing.registerRoute(
+  /\.(?:png|gif|jpg|jpeg|svg)$/,
+  workbox.strategies.staleWhileRevalidate({
+    cacheName: 'images',
+    plugins: [
+      new workbox.expiration.Plugin({
+        maxEtnries: 60,
+        maxAgeSeconds: 30 * 24 * 60 * 60, // 30 hari
       })
-    );
-});
+    ]
+  }),
+);
+
+// Menyimpan cache dari CSS Google Fonts
+workbox.routing.registerRoute(
+  /^https:\/\/fonts\.googleapis\.com/,
+  workbox.strategies.staleWhileRevalidate({
+      cacheName: 'google-fonts-stylesheets',
+  })
+)
+
+// Menyimpan base_url API
+workbox.routing.registerRoute(
+  new RegExp('https://api.football-data.org/v2/'),
+  workbox.strategies.staleWhileRevalidate({
+    cacheName: 'base_url',
+  })
+)
 
 self.addEventListener('push', function(event) {
   var body;
