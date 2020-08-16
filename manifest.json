@@ -1,0 +1,17 @@
+{
+    "name": "Liga Spanyol",
+    "gcm_sender_id": "927499394432",
+    "short_name": "Liga Spanyol",
+    "description": "Submission 2 Liga bola",
+    "start_url": "/index.html",
+    "display": "standalone",
+    "background_color": "#ffcd3c",
+    "theme_color": "#00897B",
+    "icons": [
+        {
+            "src": "images/icon.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ]
+}
