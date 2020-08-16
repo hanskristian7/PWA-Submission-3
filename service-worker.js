@@ -23,6 +23,13 @@ workbox.routing.registerRoute(
 );
 
 workbox.routing.registerRoute(
+  new RegExp('/detail_tim.html'),
+  workbox.strategies.staleWhileRevalidate({
+    cacheName: 'detail'
+  }),
+);
+
+workbox.routing.registerRoute(
   new RegExp('/js/'),
   workbox.strategies.staleWhileRevalidate({
     cacheName: 'js'
