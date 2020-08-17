@@ -24,9 +24,21 @@
 
     <div class="container" id="body-content-detail-team"></div>
     <div class="fixed-action-btn">
-      <a class="btn-floating btn-large red" id="save">
+      <a class="btn-floating btn-large red modal-trigger" id="save" href="#modal1">
       <i class="large material-icons">favorite_border</i>
       </a>
+    </div>
+
+    <!-- Modal Structure -->
+    <div id="modal1" class="modal">
+      <div class="modal-content">
+        <h4>Favoritkan Tim Ini?</h4>
+        <p>Tim yang difavoritkan dapat dicek pada halaman favorit.</p>
+      </div>
+      <div class="modal-footer">
+        <a class="modal-close waves-effect waves-green btn-flat">Batalkan</a>
+        <a class="waves-effect waves-green btn-flat" id="btn-fav">Favoritkan</a>
+      </div>
     </div>
 
     <script src="js/sw-regis.js"></script>
@@ -50,8 +62,8 @@
           var item = getTeamById();
         }
         btnSave.onclick = () => {
-          var toastHTML = '<span>Favoritkan?</span><button class="btn-flat toast-action" id="btn-fav">Yes</button>';
-          M.toast({html: toastHTML});
+          var elems = document.querySelectorAll('#modal1');
+          var instances = M.Modal.init(elems);
           btnFav = document.getElementById("btn-fav");
           btnFav.onclick = () => {
             item.then((team)=>{
