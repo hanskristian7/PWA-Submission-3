@@ -13,7 +13,11 @@ workbox.precaching.precacheAndRoute([
     { url: '/css/materialize.min.css', revision: revision_number },
     { url: '/css/materialize.css', revision: revision_number },
     { url: '/js/materialize.min.js', revision: revision_number },
-]);
+],
+  {
+    ignoreUrlParametersMatching: [/.*/]
+  }
+);
 
 workbox.routing.registerRoute(
     new RegExp('/pages/'),
