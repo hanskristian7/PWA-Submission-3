@@ -49,8 +49,8 @@ function getAll() {
 }
 
 function deleteFavTeam(team_id) {
-  var toastHTML = '<span>Hapus Tim?</span><button class="btn-flat toast-action" id="btn-hapus">Yes</button>';
-  M.toast({html: toastHTML});
+  var elems = document.querySelectorAll('#modal2');
+  var instances = M.Modal.init(elems);
   btnHapus = document.getElementById("btn-hapus");
   btnHapus.onclick = () =>{
     dbPromised.then((db) => {

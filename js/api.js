@@ -93,11 +93,17 @@ function getFavoritedTeams() {
                 </a>
               </div>
               <div class="col s6 waves-effect box-delete" align="center">
-                <a href="#" onclick="deleteFavTeam(${data.id})">
+                <a href="#modal2" class="modal-trigger" onclick="deleteFavTeam(${data.id})">
                   <div class="info-detail" align="center">
                     <h6><i class="material-icons icon-height">delete_forever</i> Hapus</h6>
                   </div>
                 </a>
+                <div id="modal2" class="modal">
+                  <div class="modal-footer">
+                    <a class="modal-close waves-effect waves-green btn-flat">Batalkan</a>
+                    <a class="waves-effect waves-red btn-flat" id="btn-hapus">HAPUS</a>
+                  </div>
+                </div>
               </div>
             </div>
             </div>
