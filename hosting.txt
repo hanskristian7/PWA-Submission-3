@@ -1,5 +1,5 @@
 Github:
-https://github.com/hanskristian7/PWA-Submission-3/tree/master
+https://github.com/hanskristian7/PWA-Submission-3
 
 Firebase:
 https://dicoding-pwa-submission3.web.app/
